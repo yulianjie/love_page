@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点点滴滴 - Like_Girl v5.2.0</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header animate__animated animate__fadeIn">
+            <h1 class="page-title">点点滴滴</h1>
+            <p>有人想重听我们的故事...</p>
+            <a href="/" class="return-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+        
+        <div class="diary-container">
+            <!-- Add new diary entry form -->
+            <div class="form-container animate__animated animate__fadeInUp">
+                <h2>添加新的回忆</h2>
+                <form id="diaryForm" action="/diary" method="POST" data-ajax="true">
+                    <div class="form-group">
+                        <label for="title">标题</label>
+                        <input type="text" id="title" name="title" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content">内容</label>
+                        <textarea id="content" name="content" class="form-control" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="image_path">图片路径 (可选)</label>
+                        <input type="text" id="image_path" name="image_path" class="form-control">
+                    </div>
+                    
+                    <button type="submit" class="btn">记录这一刻</button>
+                </form>
+            </div>
+            
+            <!-- Diary entries list -->
+            <div class="diary-list">
+                <h2 class="section-title animate__animated animate__fadeIn">我们的故事</h2>
+                
+                {% if diaries %}
+                    {% for diary in diaries %}
+                    <div class="diary-item animate__animated animate__fadeIn" style="animation-delay: {{ loop.index * 0.1 }}s">
+                        <div class="diary-header">
+                            <h3 class="diary-title">{{ diary.title }}</h3>
+                            <div class="diary-date">{{ diary.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+                        </div>
+                        
+                        {% if diary.image_path %}
+                        <div class="diary-image">
+                            <img src="{{ diary.image_path }}" alt="{{ diary.title }}">
+                        </div>
+                        {% endif %}
+                        
+                        <div class="diary-content">
+                            {{ diary.content | replace('\n', '<br>') | safe }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state animate__animated animate__fadeIn">
+                        <i class="fas fa-book fa-3x"></i>
+                        <p>还没有记录哦，快来记录第一个故事吧！</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <footer class="animate__animated animate__fadeIn animate__delay-1s">
+            <div class="copyright">
+                <p>Copyright © 2022-2024 Like_Girl All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <style>
+        .diary-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            margin: 40px 0 20px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+        
+        .diary-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .diary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .diary-title {
+            font-size: 20px;
+            color: var(--text-color);
+        }
+        
+        .diary-date {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .diary-image {
+            margin-bottom: 15px;
+        }
+        
+        .diary-image img {
+            width: 100%;
+            border-radius: 8px;
+            max-height: 400px;
+            object-fit: cover;
+        }
+        
+        .diary-content {
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #888;
+        }
+        
+        .empty-state i {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+    </style>
+    
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

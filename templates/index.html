@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like_Girl v5.2.0</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="animate__animated animate__fadeIn">
+            <h1>Love Page v5.2.0</h1>
+            <div class="cat-banner">
+                <div class="overlay-container">
+                    <div class="cat-row">
+                        <div class="cat cat-1"></div>
+                        <div class="cat cat-2"></div>
+                        <div class="cat cat-3"></div>
+                        <div class="cat cat-4"></div>
+                        <div class="cat cat-5"></div>
+                        <div class="cat cat-6"></div>
+                        <div class="cat cat-7"></div>
+                    </div>
+                    <div class="selector">
+                        <div class="profile-selector">
+                            <div class="profile profile-1 active" data-profile="Ki">
+                                <img src="https://q1.qlogo.cn/g?b=qq&nk=1480851073&s=640" alt="Jack">
+                                <span>Jack</span>
+                            </div>
+                            <div class="heart"><i class="fas fa-heart"></i></div>
+                            <div class="profile profile-2" data-profile="li">
+                                <img src="https://q1.qlogo.cn/g?b=qq&nk=2477194505&s=640" alt="Ta">
+                                <span>Ta</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="timer-section animate__animated animate__fadeInUp">
+            <div class="timer-text">这是我们一起走过的</div>
+            <div class="timer">
+                <span id="days">{{ days }}</span>天 
+                <span id="hours">{{ hours }}</span>时 
+                <span id="minutes">{{ minutes }}</span>分 
+                <span id="seconds">{{ seconds }}</span>秒
+            </div>
+        </section>
+
+        <section class="function-section animate__animated animate__fadeInUp animate__delay-1s">
+            <div class="function-row">
+                <a href="/diary" class="function-card">
+                    <div class="icon purple">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="function-title">点点滴滴</div>
+                    <div class="function-desc">有人想重听我们的故事...</div>
+                </a>
+
+                <a href="/messages" class="function-card">
+                    <div class="icon blue">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="function-title">留言板</div>
+                    <div class="function-desc">在这里写下你的话...</div>
+                </a>
+
+                <a href="/about" class="function-card">
+                    <div class="icon orange">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="function-title">关于我们</div>
+                    <div class="function-desc">我们之间从前的事...</div>
+                </a>
+            </div>
+
+            <div class="function-row">
+                <a href="/photos" class="function-card">
+                    <div class="icon photo-blue">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <div class="function-title">Love Photo</div>
+                    <div class="function-desc">全是我们 记录着美丽时刻</div>
+                </a>
+
+                <a href="/list" class="function-card">
+                    <div class="icon list-red">
+                        <i class="fas fa-list-check"></i>
+                    </div>
+                    <div class="function-title">Love List</div>
+                    <div class="function-desc">安安列表 你我之间的约定</div>
+                </a>
+            </div>
+        </section>
+
+        <footer class="animate__animated animate__fadeIn animate__delay-2s">
+            <div class="copyright">
+                <p>Copyright © 2022-2024 Like_Girl All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+    <script>
+        // Timer update
+        function updateTimer() {
+            const startDate = new Date('2022-01-01'); // Change to your actual start date
+            const now = new Date();
+            const diff = Math.floor((now - startDate) / 1000);
+            
+            const days = Math.floor(diff / (24 * 60 * 60));
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+        
+        setInterval(updateTimer, 1000);
+        
+        // Profile selector animation
+        document.querySelectorAll('.profile').forEach(profile => {
+            profile.addEventListener('click', () => {
+                document.querySelectorAll('.profile').forEach(p => p.classList.remove('active'));
+                profile.classList.add('active');
+                
+                const heart = document.querySelector('.heart i');
+                heart.classList.add('pulse');
+                setTimeout(() => {
+                    heart.classList.remove('pulse');
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

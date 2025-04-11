@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love List - Like_Girl v5.2.0</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header animate__animated animate__fadeIn">
+            <h1 class="page-title">Love List</h1>
+            <p>安安列表 你我之间的约定</p>
+            <a href="/" class="return-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+        
+        <!-- Add new list item form -->
+        <div class="form-container animate__animated animate__fadeInUp">
+            <h2>添加新约定</h2>
+            <form id="listForm" action="/list" method="POST" data-ajax="true" data-reload="true">
+                <div class="form-group">
+                    <label for="title">约定内容</label>
+                    <input type="text" id="title" name="title" class="form-control" required placeholder="想要一起做什么呢？">
+                </div>
+                
+                <button type="submit" class="btn">添加到列表</button>
+            </form>
+        </div>
+        
+        <!-- List items -->
+        <div class="list-container animate__animated animate__fadeIn animate__delay-1s">
+            <h2 class="section-title">我们的约定</h2>
+            
+            {% if items %}
+                {% for item in items %}
+                <div class="list-item {% if item.status == 1 %}completed{% endif %}" data-id="{{ item.id }}">
+                    <input type="checkbox" class="list-checkbox" {% if item.status == 1 %}checked{% endif %}>
+                    <div class="list-content">
+                        <div class="list-text">{{ item.title }}</div>
+                        <div class="list-date">{{ item.created_at.strftime('%Y-%m-%d') }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-list-check fa-3x"></i>
+                    <p>还没有约定，快来添加吧！</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <footer class="animate__animated animate__fadeIn animate__delay-1s">
+            <div class="copyright">
+                <p>Copyright © 2022-2024 Like_Girl All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <style>
+        .list-container {
+            max-width: 600px;
+            margin: 40px auto 0;
+        }
+        
+        .section-title {
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+        
+        .list-item {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .list-checkbox {
+            width: 22px;
+            height: 22px;
+            margin-right: 15px;
+            accent-color: var(--list-red);
+            cursor: pointer;
+        }
+        
+        .list-content {
+            flex: 1;
+        }
+        
+        .list-text {
+            font-size: 16px;
+            margin-bottom: 5px;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+        
+        .list-date {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .list-item.completed .list-text {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+        
+        .list-item.completed {
+            background-color: #f8f8f8;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #888;
+        }
+        
+        .empty-state i {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+    </style>
+    
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

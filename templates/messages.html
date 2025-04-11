@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板 - Like_Girl v5.2.0</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header animate__animated animate__fadeIn">
+            <h1 class="page-title">留言板</h1>
+            <p>在这里写下你的话...</p>
+            <a href="/" class="return-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+        
+        <!-- Add message form -->
+        <div class="form-container animate__animated animate__fadeInUp">
+            <h2>留下你的话</h2>
+            <form id="messageForm" action="/messages" method="POST" data-ajax="true" data-reload="true">
+                <div class="form-group">
+                    <label for="name">你的名字</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="content">留言内容</label>
+                    <textarea id="content" name="content" class="form-control" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn">发送留言</button>
+            </form>
+        </div>
+        
+        <!-- Messages list -->
+        <div class="messages-container animate__animated animate__fadeIn animate__delay-1s">
+            <h2 class="section-title">留言列表</h2>
+            
+            {% if messages %}
+                {% for message in messages %}
+                <div class="message-item" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="message-header">
+                        <div class="message-name">{{ message.name }}</div>
+                        <div class="message-date">{{ message.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+                    </div>
+                    <div class="message-content">{{ message.content | replace('\n', '<br>') | safe }}</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-comments fa-3x"></i>
+                    <p>还没有留言，快来留下第一条吧！</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <footer class="animate__animated animate__fadeIn animate__delay-1s">
+            <div class="copyright">
+                <p>Copyright © 2022-2024 Like_Girl All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <style>
+        .messages-container {
+            max-width: 800px;
+            margin: 40px auto 0;
+        }
+        
+        .section-title {
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+        
+        .message-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .message-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .message-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--blue);
+        }
+        
+        .message-date {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .message-content {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #888;
+        }
+        
+        .empty-state i {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+    </style>
+    
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
